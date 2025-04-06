@@ -21,6 +21,39 @@ class JobService {
         }
         return job;
     }
+
+    async getAllJobs(query) {
+        const jobs = await Job.find(query);
+        if (!jobs) {
+            throw {
+                message: "No jobs found",
+                statusCode: 404,
+            };
+        }
+        return jobs;
+    }
+
+    async getJobById(jobId){
+        const job = await Job.findById(jobId);
+        if (!job) {
+            throw {
+                message: "Job not found",
+                statusCode: 404,
+            };
+        }
+        return job;
+    }
+
+    async getAdminJobs(adminId){
+        const jobs = await Job.find({created_by: adminId});
+        if (!jobs) {
+            throw {
+                message: "No jobs found",
+                statusCode: 404,
+            };
+        }
+        return jobs;
+    }
 }
 
 export default new JobService();
