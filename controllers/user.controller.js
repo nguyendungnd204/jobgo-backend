@@ -80,7 +80,7 @@ export const updateProfile = async (req, res) => {
         if(skills){
             skillsArray = skills.split(",");
         }
-        const data = await UserService.updateUserInfoService(userId, fullname, email, phoneNumber, bio, skillsArray)
+        const data = await UserService.updateUserInfo(userId, fullname, email, phoneNumber, bio, skillsArray)
         res.status(200).json({
             message: "Profile updated successfully",
             success: true,

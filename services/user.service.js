@@ -61,7 +61,7 @@ class UserService {
         return { user: userWithoutPassword, token };
     }
 
-    async updateUserInfoService(id, fullname, email, phoneNumber, bio, skillsArray){
+    async updateUserInfo(id, fullname, email, phoneNumber, bio, skillsArray){
         const user = await User.findById(id);
         if(!user){
             throw new Error('User not found');
