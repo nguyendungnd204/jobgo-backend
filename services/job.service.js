@@ -23,7 +23,7 @@ class JobService {
     }
 
     async getAllJobs(query) {
-        const jobs = await Job.find(query);
+        const jobs = await Job.find(query).populate({path: 'company'}).sort({createdAt: -1});
         if (!jobs) {
             throw {
                 message: "No jobs found",

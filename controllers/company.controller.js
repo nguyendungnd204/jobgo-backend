@@ -1,4 +1,3 @@
-import companyService from "../services/company.service.js";
 import CompanyService from "../services/company.service.js";
 
 export const registerCompany = async (req, res) => {

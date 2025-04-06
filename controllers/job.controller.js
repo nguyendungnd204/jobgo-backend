@@ -1,4 +1,4 @@
-import jobService from "../services/job.service.js";
+import JobService from "../services/job.service.js";
 
 export const postJob = async (req, res) => {
     try {
@@ -11,7 +11,7 @@ export const postJob = async (req, res) => {
             });
         }
 
-        const job = await jobService.postJob({title, description, requirements, salary, location, jobType, experience, position, companyId }, userId);
+        const job = await JobService.postJob({title, description, requirements, salary, location, jobType, experience, position, companyId }, userId);
         res.status(201).json({
             message: "Job created successfully",
             success: true,
@@ -36,7 +36,7 @@ export const getAllJobs = async (req, res) => {
             ]
         }
 
-        const jobs = await jobService.getAllJobs(query);
+        const jobs = await JobService.getAllJobs(query);
         res.status(200).json({
             message: "Jobs fetched successfully",
             success: true,
@@ -54,7 +54,7 @@ export const getAllJobs = async (req, res) => {
 export const getJobById = async (req, res) => {
     try {
         const jobId = req.params.id;
-        const job = await jobService.getJobById(jobId);
+        const job = await JobService.getJobById(jobId);
         return res.status(200).json({
             message: "Job fetched successfully",
             success: true,
@@ -73,7 +73,7 @@ export const getJobById = async (req, res) => {
 export const getAdminJobs = async (req, res) => {
     try {
         const adminId = req.id;
-        const jobs = await jobService.getAdminJobs(adminId);
+        const jobs = await JobService.getAdminJobs(adminId);
         res.status(200).json({
             message: "Jobs fetched successfully",
             success: true,
