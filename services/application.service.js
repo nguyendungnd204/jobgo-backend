@@ -17,6 +17,19 @@ class ApplicationService {
         await job.save();
         return application;
     }
+
+    async getAppliedJobs(userId) {
+        const applications = await Application.find({ applicant: userId })
+        .populate({
+            path: 'job',
+            options: { sort: { createdAt: -1 } },
+            populate: {
+                path: 'company',
+                options: {sort: { createdAt: -1 } }
+            }
+        }).sort({ createdAt: -1 });
+        return applications;
+    }
     
 }
 

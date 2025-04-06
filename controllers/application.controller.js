@@ -42,3 +42,28 @@ export const applyJob = async (req, res) => {
         });
     }
 }
+
+export const getAppliedJobs = async (req, res) => {
+    try {
+        const userId = req.id;
+        const applications = await ApplicationService.getAppliedJobs(userId);
+        if (!applications) {
+            return res.status(404).json({
+                message: "No applications found",
+                success: false,
+            });
+        }
+        res.status(200).json({
+            message: "Applications fetched successfully",
+            success: true,
+            data: applications,
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Internal server error",
+            success: false,
+        });
+    }
+}
