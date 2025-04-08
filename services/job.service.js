@@ -35,12 +35,6 @@ class JobService {
 
     async getJobById(jobId){
         const job = await Job.findById(jobId);
-        if (!job) {
-            throw {
-                message: "Job not found",
-                statusCode: 404,
-            };
-        }
         return job;
     }
 
