@@ -5,6 +5,7 @@ exports.registerSchema = joi.object({
     .string()
     .email()
     .required()
+    .email()
     .message({
         'any.required': 'Email là bắt buộc'
     }),
