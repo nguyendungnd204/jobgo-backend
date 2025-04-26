@@ -61,20 +61,42 @@ class UserService {
         return { user: userWithoutPassword, token };
     }
 
-    async updateUserInfo(id, fullname, email, phoneNumber, bio, skillsArray){
-        const user = await User.findById(id);
-        if(!user){
-            throw new Error('User not found');
+    async updateUserInfo(id, fullname, email, phoneNumber, bio, skillsArray, file){
+        try {
+            const user = await User.findById(id);
+            if(!user){
+                throw new Error('User not found');
+            }
+            if(!user.profile) {
+                user.profile = {}; 
+            }
+            if(fullname) user.fullname = fullname;
+            if(email) user.email = email;
+            if(phoneNumber) user.phoneNumber = phoneNumber;
+            if(bio) user.profile.bio = bio;
+            if(skillsArray) user.profile.skills = skillsArray;
+            if(file) {
+                if (file.path) {
+                    user.profile.resume = file.path;
+                }
+                // Hoặc nếu bạn muốn lưu tên file gốc
+                else if (file.originalname) {
+                    user.profile.resume = file.originalname;
+                }
+                // Hoặc nếu file là một chuỗi (đường dẫn)
+                else if (typeof file === 'string') {
+                    user.profile.resume = file;
+                }
+            }
+    
+            await user.save();
+    
+            return user;
+        } catch (error) {
+            console.error("Error updating user info:", error);
+            throw error; 
         }
-        if(fullname) user.fullname = fullname;
-        if(email) user.email = email;
-        if(phoneNumber) user.phoneNumber = phoneNumber;
-        if(bio) user.profile.bio = bio;
-        if(skillsArray) user.profile.skills = skillsArray;
-
-        await user.save();
-
-        return user;
+       
     }
 }
 

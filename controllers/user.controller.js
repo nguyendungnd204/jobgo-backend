@@ -74,17 +74,20 @@ export const logout = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
     try{
-        const {fullname, email, phoneNumber, bio, skills} = req.body;
+        const {fullname, email, phoneNumber, bio, skills } = req.body;
         const userId = req.id; 
-        const skillsArray = skills;
-        if(skills){
-            skillsArray = skills.split(",");
+        const file = req.file;
+        console.log("Backend received:", { fullname, email, phoneNumber, bio, skills, skills, file });
+        let skillsArray = [];
+        if(skills) {
+           skillsArray = skills.split(",")
         }
-        const data = await UserService.updateUserInfo(userId, fullname, email, phoneNumber, bio, skillsArray)
+        
+        let user = await UserService.updateUserInfo(userId, fullname, email, phoneNumber, bio, skillsArray, file)
         res.status(200).json({
             message: "Profile updated successfully",
             success: true,
-            data: data
+            user: user
         })
     } catch(error){
         console.log(error);
