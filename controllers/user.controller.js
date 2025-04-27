@@ -13,7 +13,11 @@ export const register = async (req, res) => {
             });
         }
 
-        const newUser = await UserService.register({ fullname, email, phoneNumber, password, role });
+        const file = req.file;
+        const fileUri = getDatauri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content); 
+
+        const newUser = await UserService.register({ fullname, email, phoneNumber, password, role, cloudResponse });
         
         res.status(201).json({
             message: "User created successfully",

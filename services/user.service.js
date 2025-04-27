@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 class UserService {
     async register(userData) {
-        const { email, password } = userData;
+        const { email, password, cloudResponse } = userData;
         
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -17,7 +17,10 @@ class UserService {
 
         const newUser = await User.create({
             ...userData,
-            password: hashedPassword
+            password: hashedPassword,
+            profile: {
+                profilePhoto: cloudResponse.secure_url,
+            }
         });
 
         const { password: _, ...userWithoutPassword } = newUser.toObject();
