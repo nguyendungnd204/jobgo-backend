@@ -61,7 +61,7 @@ class UserService {
         return { user: userWithoutPassword, token };
     }
 
-    async updateUserInfo(id, fullname, email, phoneNumber, bio, skillsArray, file){
+    async updateUserInfo(id, fullname, email, phoneNumber, bio, skillsArray, cloudResponse, file){
         try {
             const user = await User.findById(id);
             if(!user){
@@ -75,18 +75,9 @@ class UserService {
             if(phoneNumber) user.phoneNumber = phoneNumber;
             if(bio) user.profile.bio = bio;
             if(skillsArray) user.profile.skills = skillsArray;
-            if(file) {
-                if (file.path) {
-                    user.profile.resume = file.path;
-                }
-                // Hoặc nếu bạn muốn lưu tên file gốc
-                else if (file.originalname) {
-                    user.profile.resume = file.originalname;
-                }
-                // Hoặc nếu file là một chuỗi (đường dẫn)
-                else if (typeof file === 'string') {
-                    user.profile.resume = file;
-                }
+            if(cloudResponse){
+                user.profile.resume = cloudResponse.secure_url
+                user.profile.resumeOriginalName = file.originalname
             }
     
             await user.save();

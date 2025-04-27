@@ -1,4 +1,6 @@
 import UserService from '../services/user.service.js';
+import getDatauri from '../utils/datauri.js';
+import cloudinary from '../utils/cloudinary.js';
 
 export const register = async (req, res) => {
     try {
@@ -77,13 +79,17 @@ export const updateProfile = async (req, res) => {
         const {fullname, email, phoneNumber, bio, skills } = req.body;
         const userId = req.id; 
         const file = req.file;
+
+        const fileUri = getDatauri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
         console.log("Backend received:", { fullname, email, phoneNumber, bio, skills, skills, file });
         let skillsArray = [];
         if(skills) {
            skillsArray = skills.split(",")
         }
         
-        let user = await UserService.updateUserInfo(userId, fullname, email, phoneNumber, bio, skillsArray, file)
+        let user = await UserService.updateUserInfo(userId, fullname, email, phoneNumber, bio, skillsArray, cloudResponse, file)
         res.status(200).json({
             message: "Profile updated successfully",
             success: true,
