@@ -13,7 +13,7 @@ export const postJob = async (req, res) => {
 
         const job = await JobService.postJob({title, description, requirements, salary, location, jobType, experience, position, companyId }, userId);
         res.status(201).json({
-            message: "Job created successfully",
+            message: "Job applied successfully",
             success: true,
             data: job
         });
@@ -54,7 +54,9 @@ export const getAllJobs = async (req, res) => {
 export const getJobById = async (req, res) => {
     try {
         const jobId = req.params.id;
-        const job = await JobService.getJobById(jobId);
+        const job = await JobService.getJobById(jobId).populate({
+            path:"applications"
+        })
         return res.status(200).json({
             message: "Job fetched successfully",
             success: true,

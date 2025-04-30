@@ -31,6 +31,8 @@ export const applyJob = async (req, res) => {
         }
         
         const application = await ApplicationService.applyJob(jobId, userId, job);
+        console.log(job)
+        console.log(application)
         res.status(201).json({
             message: "Application created successfully",
             success: true,
