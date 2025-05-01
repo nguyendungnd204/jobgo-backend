@@ -4,7 +4,9 @@ export const registerCompany = async (req, res) => {
     try {
         const {companyNamme} = req.body;
         const userId = req.id;
-        if (!companyNamme) {
+
+        const { error } = createProductSchema.validate({companyNamme});
+        if (error) {
             return res.status(400).json({
                 message: "Company name is required",
                 success: false,

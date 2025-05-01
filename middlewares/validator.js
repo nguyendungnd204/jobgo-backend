@@ -18,3 +18,12 @@ exports.registerSchema = joi.object({
         'any.required': 'Password là bắt buộc',
     })
 })
+
+exports.createCompany = joi.object({
+    name: joi
+    .string()
+    .required()
+    .message({
+        'any.required': 'Tên là bắt buộc'
+    })
+})
