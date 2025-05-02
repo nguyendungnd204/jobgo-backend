@@ -1,18 +1,20 @@
 import CompanyService from "../services/company.service.js";
+//import {createCompany} from "../middlewares/validator.js"
 
 export const registerCompany = async (req, res) => {
     try {
-        const {companyNamme} = req.body;
+        const {companyName} = req.body;
         const userId = req.id;
 
-        const { error } = createProductSchema.validate({companyNamme});
-        if (error) {
+        //const { error } = createCompany.validate({companyNamme});
+        if (!companyName) {
             return res.status(400).json({
                 message: "Company name is required",
                 success: false,
             });
         }
-        let company = await CompanyService.createCompany(userId,companyNamme);
+
+        let company = await CompanyService.createCompany(userId,companyName);
         res.status(201).json({
             message: "Company created successfully",
             success: true,
@@ -65,10 +67,12 @@ export const getCompanyById = async (req, res) => {
 
 export const updateCompany = async (req, res) => {
     try {
-        const {name, description, website, location} = req.body;
+        const {name, description, website, location} = req.body; 
         const file = req.file;
         const companyId = req.params.id;
-        const company = await companyService.updateCompany(companyId, name, description, website, location);
+        console.log(name, description, location, website, file, companyId)
+        console.log(req.body);
+        const company = await CompanyService.updateCompany(companyId, name, description, website, location);
         res.status(200).json({
             message: "Company updated successfully",
             success: true,
