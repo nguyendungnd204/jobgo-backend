@@ -37,7 +37,7 @@ class CompanyService {
         return company;
     }
 
-    async updateCompany(companyId, name, description, website, location){//file
+    async updateCompany(companyId, name, description, website, location, logo){//file
         const company = await Company.findOne({_id: companyId});
         if (!company) {
             throw {
@@ -49,7 +49,7 @@ class CompanyService {
         if(website) company.website = website;
         if(location) company.location = location;
         if(description) company.description = description;
-        //if(file) company.logo = file.path;
+        if(logo) company.logo = logo;
         await company.save();
         return company;
     }

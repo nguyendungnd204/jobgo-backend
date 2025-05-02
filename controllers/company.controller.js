@@ -1,4 +1,6 @@
 import CompanyService from "../services/company.service.js";
+import cloudinary from "../utils/cloudinary.js";
+import getDatauri from "../utils/datauri.js";
 //import {createCompany} from "../middlewares/validator.js"
 
 export const registerCompany = async (req, res) => {
@@ -70,9 +72,12 @@ export const updateCompany = async (req, res) => {
         const {name, description, website, location} = req.body; 
         const file = req.file;
         const companyId = req.params.id;
-        console.log(name, description, location, website, file, companyId)
-        console.log(req.body);
-        const company = await CompanyService.updateCompany(companyId, name, description, website, location);
+       
+        const fileUri = getDatauri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        const logo = cloudResponse.secure_url;
+
+        const company = await CompanyService.updateCompany(companyId, name, description, website, location, logo);
         res.status(200).json({
             message: "Company updated successfully",
             success: true,
