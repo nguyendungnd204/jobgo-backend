@@ -13,7 +13,7 @@ export const postJob = async (req, res) => {
 
         const job = await JobService.postJob({title, description, requirements, salary, location, jobType, experience, position, companyId }, userId);
         res.status(201).json({
-            message: "Job applied successfully",
+            message: "Job created successfully",
             success: true,
             data: job
         });

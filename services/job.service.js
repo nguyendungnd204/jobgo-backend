@@ -39,7 +39,10 @@ class JobService {
     }
 
     async getAdminJobs(adminId){
-        const jobs = await Job.find({created_by: adminId});
+        const jobs = await Job.find({created_by: adminId}).populate({
+            path:'company',
+            createdAt:-1
+        });
         if (!jobs) {
             throw {
                 message: "No jobs found",
