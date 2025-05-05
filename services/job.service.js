@@ -34,7 +34,9 @@ class JobService {
     }
 
     async getJobById(jobId){
-        const job = await Job.findById(jobId);
+        const job = await Job.findById(jobId).populate({
+            path:"applications"
+        });
         return job;
     }
 

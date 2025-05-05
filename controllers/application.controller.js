@@ -90,7 +90,7 @@ export const getApplicants = async (req, res) => {
         res.status(200).json({
             message: "Applicants fetched successfully",
             success: true,
-            data: job.applications,
+            data: job,
         });
     } catch (error) {
         console.log(error);
